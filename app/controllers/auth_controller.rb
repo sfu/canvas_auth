@@ -1,5 +1,4 @@
 class AuthController < ApplicationController
-  #skip_filter *_process_action_callbacks.map(&:filter)
   skip_before_filter :verify_authenticity_token, :load_user
 
   def auth
@@ -8,8 +7,6 @@ class AuthController < ApplicationController
     # basic user check
     hash = {:unique_id => params[:username], :password => params[:password]}
     pseudonym_session = @domain_root_account.pseudonym_sessions.new(hash)
-    #pseudonym_session.remote_ip = request.remote_ip
-    #found = pseudonym_session.save # somehow this is crucial to validating the pseudonym
     found = pseudonym_session.valid?
     
     if !found
