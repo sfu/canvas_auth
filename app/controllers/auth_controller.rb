@@ -2,6 +2,11 @@ class AuthController < ApplicationController
   skip_before_filter :verify_authenticity_token, :load_user
 
   def auth
+    if request.remote_ip != '142.58.101.11' && request.remote_ip != '142.58.3.148'
+      render status: 404
+      return
+    end
+
     found = false
 
     # basic user check
