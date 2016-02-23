@@ -7,11 +7,10 @@ require "canvas_auth/version"
 Gem::Specification.new do |s|
   s.name        = "canvas_auth"
   s.version     = CanvasAuth::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of CanvasAuth."
-  s.description = "TODO: Description of CanvasAuth."
+  s.authors     = ["Patrick Chin"]
+  s.email       = ["patchin@sfu.ca"]
+  s.summary     = "Canvas REST API to check username/password."
+  s.description = "Canvas REST API to check username/password."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
