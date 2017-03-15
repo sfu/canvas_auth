@@ -6,7 +6,7 @@ else
 end
 
 class AuthController < ApplicationController
-  skip_before_filter :verify_authenticity_token, :load_user
+  skip_before_action :verify_authenticity_token, :load_user
 
   def auth
     if WL_CONFIG == nil
@@ -19,7 +19,7 @@ class AuthController < ApplicationController
     valid_ip = false
     whitelist.each do |ip|
       valid_ip = true if request.remote_ip == ip
-    end  
+    end
 
     if !valid_ip
       render json: { error_code: 404, error_message: "No such route exists." } , status: 404
@@ -39,13 +39,13 @@ class AuthController < ApplicationController
       # basic user check
       hash = { :unique_id => username, :password => password }
       pseudonym_session = @domain_root_account.pseudonym_sessions.new(hash)
-      
+
       # should never be nil but we check anyways
       if pseudonym_session.nil?
         return (render json: { error_code: 500, error_message: "Null pseudonym_session." }, status: 500)
       end
       authenticated = pseudonym_session.valid?
-    
+
     rescue => e
       return (render json: { error_code: 500, error_message: e.message })
     end
