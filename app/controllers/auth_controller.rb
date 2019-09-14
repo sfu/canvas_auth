@@ -37,19 +37,14 @@ class AuthController < ApplicationController
 
     begin
       # basic user check
-      hash = { :unique_id => username, :password => password }
-      pseudonym_session = @domain_root_account.pseudonym_sessions.new(hash)
-
-      # should never be nil but we check anyways
-      if pseudonym_session.nil?
-        return (render json: { error_code: 500, error_message: "Null pseudonym_session." }, status: 500)
+      found = @domain_root_account.pseudonyms.scoping do
+        @pseudonym_session = PseudonymSession.new(params[:pseudonym_session].permit(:unique_id, :password, :remember_me).to_h)
       end
-      authenticated = pseudonym_session.valid?
-
+      
     rescue => e
       return (render json: { error_code: 500, error_message: e.message })
     end
 
-    render json: { authenticated: authenticated ? "YES" : "NO" }
+    render json: { authenticated: found.valid? ? "YES" : "NO" }
   end
 end
