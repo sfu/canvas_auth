@@ -38,9 +38,9 @@ class AuthController < ApplicationController
     begin
       # basic user check
       found = @domain_root_account.pseudonyms.scoping do
-        @pseudonym_session = PseudonymSession.new(params[:pseudonym_session].permit(:unique_id, :password, :remember_me).to_h)
-      end
-      
+        @pseudonym_session = PseudonymSession.new({ :unique_id => username, :password => password})
+    end
+
     rescue => e
       return (render json: { error_code: 500, error_message: e.message })
     end
